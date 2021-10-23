@@ -1,0 +1,7 @@
+type: command
+code: 
+  local_path: ./
+command: python test.py
+environment: azureml:AzureML-tensorflow-2.4-ubuntu18.04-py37-cuda11-gpu
+compute: azureml:cpu-cluster
+experiment_name: tfc1
