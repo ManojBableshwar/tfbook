@@ -1,0 +1,26 @@
+type: pipeline
+experiment_name: tfch8
+jobs:
+  get_data:
+    type: command
+    compute: azureml:cpu-cluster
+    inputs:
+      url: "https://storage.googleapis.com/laurencemoroney-blog.appspot.com/irish-lyrics-eof.txt"
+    outputs:
+      raw_data:
+        mode: mount
+    environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:3
+    command: wget ${{inputs.url}} -P ${{outputs.raw_data}}
+  train:
+    type: command
+    compute: azureml:gpu-cluster
+    inputs:
+      training_data: ${{jobs.get_data.outputs.raw_data}}
+      epochs: 20
+    outputs:
+      trained_model:
+        mode: mount
+    environment: azureml:AzureML-tensorflow-2.4-ubuntu18.04-py37-cuda11-gpu:18
+    code: 
+      local_path: ./
+    command: python ./irishsongs-mlflow.py --data ${{inputs.training_data}} --epochs ${{inputs.epochs}} --model ${{outputs.trained_model}}
