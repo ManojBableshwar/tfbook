@@ -18,6 +18,7 @@ parser = argparse.ArgumentParser("train")
 parser.add_argument("--data", type=str, help="Path to training data")
 parser.add_argument("--epochs", type=str, help="epochs")
 parser.add_argument("--model", type=str, help="Path to save model")
+args = parser.parse_args()
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
@@ -32,7 +33,7 @@ if gpus:
 
 tokenizer = Tokenizer()
 
-data = open(os.path.join(args.data, os.listdir(args.training_data)[0])).read()
+data = open(os.path.join(args.data, os.listdir(args.data)[0])).read()
 
 corpus = data.lower().split("\n")
 
@@ -67,11 +68,11 @@ model.add(Dense(total_words, activation='softmax'))
 adam = Adam(lr=0.01)
 model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
 #earlystop = EarlyStopping(monitor='val_loss', min_delta=0, patience=5, verbose=0, mode='auto')
-history = model.fit(xs, ys, epochs=args.epochs, verbose=1)
-model.save(os.path.join(args.data) ,"irish.h5")
+history = model.fit(xs, ys, epochs=int(args.epochs), verbose=1)
+model.save(os.path.join(args.model) ,"irish.h5")
 
 seed_text = "You know nothing Jon Snow"
-next_words = 100
+next_words = 1
 
 for _ in range(next_words):
 	token_list = tokenizer.texts_to_sequences([seed_text])[0]

@@ -1,0 +1,25 @@
+type: command
+name: train-text-prediction
+display_name: TF Text Prediction 
+version: 10
+
+inputs:
+  training_data: 
+    type: path
+  epochs: 
+    type: integer
+    default: 10
+
+outputs:
+  trained_model:
+    type: path
+
+environment: azureml:AzureML-tensorflow-2.4-ubuntu18.04-py37-cuda11-gpu:18
+code: 
+  local_path: ./
+command: >-
+  python ./irishsongs-mlflow.py 
+  --data ${{inputs.training_data}} 
+  --epochs ${{inputs.epochs}} 
+  --model ${{outputs.trained_model}}
+  

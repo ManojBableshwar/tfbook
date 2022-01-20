@@ -1,0 +1,15 @@
+type: command
+name: download-url
+description: Download a public URL file
+version: 10
+
+inputs:
+  url: 
+    type: string
+    
+outputs:
+  raw_data:
+    type: path
+
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:3
+command: wget ${{inputs.url}} -P ${{outputs.raw_data}}
