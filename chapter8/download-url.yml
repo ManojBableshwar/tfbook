@@ -1,12 +1,12 @@
 type: command
 name: download-url
 description: Download a public URL file
-version: 10
+version: 11
 
 inputs:
   url: 
     type: string
-    
+
 outputs:
   raw_data:
     type: path
