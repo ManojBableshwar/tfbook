@@ -4,7 +4,7 @@ jobs:
 
   get_data:
     type: component
-    component: azureml:download-url:11
+    component: azureml:download-url:10
     compute: azureml:cpu-cluster
     inputs:
       url: "https://storage.googleapis.com/laurencemoroney-blog.appspot.com/irish-lyrics-eof.txt"
