@@ -1,25 +1,21 @@
 type: pipeline
-experiment_name: tfch8
 jobs:
-
   get_data:
     type: command
     compute: azureml:cpu-cluster
     inputs:
       url: "https://storage.googleapis.com/laurencemoroney-blog.appspot.com/irish-lyrics-eof.txt"
-      #url: "https://www.gutenberg.org/cache/epub/5200/pg5200.txt"
     outputs:
       raw_data:
         mode: mount
     environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:3
     command: wget ${{inputs.url}} -P ${{outputs.raw_data}}
-  
   train:
     type: command
     compute: azureml:gpu-cluster
     inputs:
       training_data: ${{jobs.get_data.outputs.raw_data}}
-      epochs: 100
+      epochs: 10
     outputs:
       trained_model:
         mode: mount
@@ -27,11 +23,8 @@ jobs:
     code: 
       local_path: ./
     command: >-
-      python ./irishsongs-mlflow.py 
-      --data ${{inputs.training_data}} 
-      --epochs ${{inputs.epochs}} 
-      --model ${{outputs.trained_model}}
-  
+      python ./irishsongs-mlflow.py --data ${{inputs.training_data}} 
+      --epochs ${{inputs.epochs}} --model ${{outputs.trained_model}}
   score:
     type: command
     compute: azureml:gpu-cluster
@@ -49,9 +42,6 @@ jobs:
     code: 
       local_path: ./
     command: >-
-      python ./irishsongs-score.py 
-      --data ${{inputs.token_data}} 
-      --predict_count ${{inputs.predict_count}} 
-      --model ${{inputs.model}}
-      --score ${{inputs.score}}
-      --output ${{outputs.scored_data}}
+      python ./irishsongs-score.py --data ${{inputs.token_data}} 
+      --predict_count ${{inputs.predict_count}} --model ${{inputs.model}}
+      --score ${{inputs.score}} --output ${{outputs.scored_data}}

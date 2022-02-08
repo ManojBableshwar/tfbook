@@ -1,0 +1,4 @@
+command: echo "hello world"
+environment:
+  image: python:latest
+compute: local

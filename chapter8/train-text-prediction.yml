@@ -1,8 +1,7 @@
 type: command
 name: train-text-prediction
 display_name: TF Text Prediction 
-version: 10
-
+version: 20
 inputs:
   training_data: 
     type: path

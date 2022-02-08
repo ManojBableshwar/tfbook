@@ -1,5 +1,4 @@
 type: pipeline
-experiment_name: tfch8
 jobs:
 
   get_data:
@@ -14,7 +13,7 @@ jobs:
   
   train:
     type: component
-    component: azureml:train-text-prediction:10
+    component: azureml:train-text-prediction:20
     compute: azureml:gpu-cluster
     inputs:
       training_data: ${{jobs.get_data.outputs.raw_data}}
