@@ -1,9 +1,10 @@
 type: pipeline
 experiment_name: tfc1
 jobs: 
-  type: command
-  code: ./
-  command: python test.py
-  environment: azureml:AzureML-tensorflow-2.4-ubuntu18.04-py37-cuda11-gpu@latest
-  compute: azureml:cpu-cluster
+  job1:
+    type: command
+    code: ./
+    command: python test.py
+    environment: azureml:AzureML-tensorflow-2.4-ubuntu18.04-py37-cuda11-gpu@latest
+    compute: azureml:cpu-cluster
  
