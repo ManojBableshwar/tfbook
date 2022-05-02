@@ -4,8 +4,8 @@ jobs:
     type: command
     compute: azureml:cpu-cluster
     inputs:
-      #url: "https://storage.googleapis.com/laurencemoroney-blog.appspot.com/irish-lyrics-eof.txt"
-      url: "https://www.gutenberg.org/cache/epub/5200/pg5200.txt"
+      url: "https://storage.googleapis.com/laurencemoroney-blog.appspot.com/irish-lyrics-eof.txt"
+      #url: "https://www.gutenberg.org/cache/epub/5200/pg5200.txt"
     outputs:
       raw_data:
         type: uri_folder
@@ -16,7 +16,7 @@ jobs:
     type: command
     compute: azureml:gpu-cluster
     inputs:
-      training_data: ${{jobs.get_data.outputs.raw_data}}
+      training_data: ${{parent.jobs.get_data.outputs.raw_data}}
       epochs: 10
     outputs:
       trained_model:
@@ -31,8 +31,8 @@ jobs:
     type: command
     compute: azureml:gpu-cluster
     inputs:
-      token_data: ${{jobs.get_data.outputs.raw_data}}
-      model: ${{jobs.train.outputs.trained_model}}
+      token_data: ${{parent.jobs.get_data.outputs.raw_data}}
+      model: ${{parent.jobs.train.outputs.trained_model}}
       score: 
         type: uri_folder
         path: ./score-data
