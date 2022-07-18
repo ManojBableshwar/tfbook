@@ -1,7 +1,9 @@
 type: pipeline
 
+experiment_name: tfbook-chapter8
+
 settings:
-  default_compute: azureml:cpu-cluster
+  default_compute: azureml:amlarc-cluster
 
 jobs:
   get_data:

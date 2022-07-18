@@ -1,8 +1,9 @@
 type: pipeline
 
+experiment_name: tfbook-chapter8-components
+
 settings:
   default_compute: azureml:cpu-cluster
-  
   
 jobs:
 
@@ -18,7 +19,7 @@ jobs:
   
   train:
     type: component
-    component: azureml:train-text-prediction:20
+    component: file:./train-text-prediction.yml
     #compute: azureml:gpu-cluster
     inputs:
       training_data: ${{jobs.get_data.outputs.raw_data}}
