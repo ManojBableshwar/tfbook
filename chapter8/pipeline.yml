@@ -1,8 +1,12 @@
 type: pipeline
+
+settings:
+  default_compute: azureml:cpu-cluster
+
 jobs:
   get_data:
     type: command
-    compute: azureml:cpu-cluster
+    #compute: azureml:cpu-cluster
     inputs:
       url: "https://storage.googleapis.com/laurencemoroney-blog.appspot.com/irish-lyrics-eof.txt"
       #url: "https://www.gutenberg.org/cache/epub/5200/pg5200.txt"
@@ -14,7 +18,7 @@ jobs:
     command: wget ${{inputs.url}} -P ${{outputs.raw_data}}
   train:
     type: command
-    compute: azureml:gpu-cluster
+    #compute: azureml:gpu-cluster
     inputs:
       training_data: ${{parent.jobs.get_data.outputs.raw_data}}
       epochs: 10
@@ -29,7 +33,7 @@ jobs:
       --epochs ${{inputs.epochs}} --model ${{outputs.trained_model}}
   score:
     type: command
-    compute: azureml:gpu-cluster
+    #compute: azureml:gpu-cluster
     inputs:
       token_data: ${{parent.jobs.get_data.outputs.raw_data}}
       model: ${{parent.jobs.train.outputs.trained_model}}
