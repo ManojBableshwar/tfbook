@@ -1,10 +1,15 @@
 type: pipeline
+
+settings:
+  default_compute: azureml:cpu-cluster
+  
+  
 jobs:
 
   get_data:
     type: component
     component: azureml:download-url:10
-    compute: azureml:cpu-cluster
+    #compute: azureml:cpu-cluster
     inputs:
       url: "https://storage.googleapis.com/laurencemoroney-blog.appspot.com/irish-lyrics-eof.txt"
     outputs:
@@ -14,7 +19,7 @@ jobs:
   train:
     type: component
     component: azureml:train-text-prediction:20
-    compute: azureml:gpu-cluster
+    #compute: azureml:gpu-cluster
     inputs:
       training_data: ${{jobs.get_data.outputs.raw_data}}
       epochs: 10
@@ -24,7 +29,7 @@ jobs:
 
   score:
     type: command
-    compute: azureml:gpu-cluster
+    #compute: azureml:gpu-cluster
     inputs:
       token_data: ${{jobs.get_data.outputs.raw_data}}
       model: ${{jobs.train.outputs.trained_model}}
