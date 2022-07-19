@@ -16,7 +16,7 @@ jobs:
       raw_data:
         type: uri_folder
         mode: mount
-    environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:3
+    environment: file:./tf-env.yml
     command: wget ${{inputs.url}} -P ${{outputs.raw_data}}
   train:
     type: command
@@ -28,7 +28,7 @@ jobs:
       trained_model:
         type: uri_folder
         mode: mount
-    environment: azureml:AzureML-tensorflow-2.4-ubuntu18.04-py37-cuda11-gpu:18
+    environment: file:./tf-env.yml
     code: ./
     command: >-
       python ./irishsongs-mlflow.py --data ${{inputs.training_data}} 
@@ -47,7 +47,7 @@ jobs:
       scored_data:
         type: uri_folder
         mode: mount
-    environment: azureml:AzureML-tensorflow-2.4-ubuntu18.04-py37-cuda11-gpu:18
+    environment: file:./tf-env.yml
     code: ./
     command: >-
       python ./irishsongs-score.py --data ${{inputs.token_data}} 
