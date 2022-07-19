@@ -1,6 +1,19 @@
+experiment_name: tfc13
 type: command
 code: ./
 command: python test.py
-environment: azureml:AzureML-tensorflow-2.4-ubuntu18.04-py37-cuda11-gpu@latest
-compute: azureml:cpu-cluster
-experiment_name: tfc1
+environment:
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:20220314.v1
+  conda_file: 
+    dependencies:
+      - python=3.8
+      - pip
+      - pip:
+        - mlflow
+        - numpy
+        - tensorflow==2.4.1
+        - tensorflow-datasets==4.3.0
+        - azureml-mlflow
+compute: local
+#compute: azureml:cpu-cluster
+#compute: azureml:amlarc-compute
